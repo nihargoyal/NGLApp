@@ -63,13 +63,8 @@ def app_detail(request, pk):
             if completed_task:
                 return Response({'message': 'Task already completed by the user'}, status=400)
 
-            user = request.user
-            user_detail = UserTask.objects.get(user=user)
-            user_detail.points += app.points
-            user_detail.save()
-
             screenshot = request.FILES.get('screenshot')
-            serializer.save(user=request.user, app=app, screenshot=screenshot, completed=True)
+            serializer.save(user=request.user, app=app, screenshot=screenshot, points=app.points, completed=True)
 
             return Response({'message': 'Task completed successfully'}, status=201)
 
